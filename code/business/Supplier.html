@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            background-color: #444;
+        }
+        nav ul li {
+            display: inline-block;
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            display: flex;
+            flex: 1;
+            padding: 2rem;
+        }
+        .form-container {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        .table-container {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-top: 1rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table, th, td {
+            border: 1px solid #333;
+        }
+        th, td {
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .action-icons {
+            display: flex;
+            justify-content: space-around;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Supplier Information</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="form-container">
+            <h2>Supplier Details</h2>
+            <label for="supplierName">Tên nhà cung cấp:</label>
+            <input type="text" id="supplierName" placeholder="Nhập tên nhà cung cấp...">
+            
+            <label for="supplierAddress">Địa chỉ:</label>
+            <input type="text" id="supplierAddress" placeholder="Nhập địa chỉ...">
+            
+            <label for="supplierPhone">Số điện thoại:</label>
+            <input type="text" id="supplierPhone" placeholder="Nhập số điện thoại...">
+            
+            <button id="addBtn">Thêm</button>
+        </div>
+        <div class="table-container">
+            <h2>Supplier List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên nhà cung cấp</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Example Supplier</td>
+                        <td>123 Main St</td>
+                        <td>0123456789</td>
+                        <td class="action-icons">
+                            <span class="edit-icon">&#9998;</span> <!-- Edit icon -->
+                            <span class="delete-icon">&#10060;</span> <!-- Delete icon -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modal structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Modal content goes here...</p>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("modal");
+
+        // Get the button that opens the modal
+        var addBtn = document.getElementById("addBtn");
+        
+        // Get the edit icons
+        var editIcons = document.getElementsByClassName("edit-icon");
+        
+        // Get the delete icons
+        var deleteIcons = document.getElementsByClassName("delete-icon");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the add button, open the modal 
+        addBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks an edit icon, open the modal 
+        for (var i = 0; i < editIcons.length; i++) {
+            editIcons[i].onclick = function() {
+                modal.style.display = "block";
+            }
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
