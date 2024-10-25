@@ -9,6 +9,7 @@
     $price = $_GET['price'];
     $id_supp = $_GET['id_supp'];
     $id_prod=$_GET['id_prodcate'];
+    $quan=$_GET['quantity'];
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name2 = $_POST['productName'];
@@ -17,10 +18,10 @@
         $supp2 = $_POST['productSupplier'];
         $image2 = $_POST['productImage'];
         $price2 = $_POST['productPrice'];
+        $quan2=$_POST['productQuantity'];
         $updateQuery = "UPDATE `product` 
-                        SET `name`='$name2',`price`='$price2',`id_supplier`=' $id_supp',`id_prodcate`=$id_prod,`image`='$image2',`description`='$des2' 
+                        SET `name`='$name2',`price`='$price2',`id_supplier`=' $id_supp',`id_prodcate`=$id_prod,`image`='$image2',`description`='$des2',`quantity`='$quan2' 
                         WHERE id = $id";
-       
         mysqli_query($connect, $updateQuery);
         header("Location: ../Product.php");
     
@@ -98,8 +99,12 @@
                 <label for="ProductDescription">Mô tả:</label>
                 <textarea class="form-control" id="ProductDescription" name="productDescription" rows="4" placeholder="Thông số kỹ thuật - mô tả"><?php echo htmlspecialchars($des); ?></textarea>
             </div>
+            <div>
+    <label for="productQuantity">Số lượng:</label> <br>
+    <input type="number" id="productQuantity" name="productQuantity" value="<?php echo $quan; ?>" required> <br>
+            </div>
 
-     
+            <br>
             <input type="text" id="productImage" name="productImage" value = <?php echo "$image"?>  >  <br><br>
             <button id="addBtn" type="submit" class="btn btn-primary">Sửa</button>
         </form>

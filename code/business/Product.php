@@ -97,6 +97,11 @@
         word-wrap: break-word; /* Cho phép xuống dòng nếu cần */
         overflow-wrap: break-word; /* Tương thích tốt hơn với các trình duyệt */
     }
+    table, th, td {
+    text-align: center;
+    vertical-align: middle;
+}
+
     </style>
 </head>
 <body>
@@ -168,6 +173,9 @@
 
             <input type="hidden" id="productImage" name="productImage">
 
+            <label for="productQuantity">Số lượng:</label>
+            <input type="number" id="productQuantity" name="productQuantity" placeholder="Nhập số lượng sản phẩm..." required>
+
                 <button id="addBtn" type="submit">Thêm</button>
             </form>
         </div>
@@ -182,13 +190,16 @@
                         <th>Danh mục</th>
                         <th>Nhà cung cấp</th>
                         <th>Hình ảnh</th>
-                        <th >Mô tả</th>
+                        <th>Mô tả</th>
+                        <th>Số lượng</th>   
                         <th>Thao tác</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-                $sql = "						SELECT
+                $sql = " SELECT
+                            p.quantity AS quan,
                             p.id_supplier AS id_supp,
                             p.id_prodcate AS id_prodcate,
                             p.description AS prodDes,
@@ -220,11 +231,13 @@
                                     <img src="image/<?php echo $row['imageURL']; ?>" alt="" style="width: 100px; height: auto;">
                                 </td>
                                 <td class="no-wrap"><?php echo $row["prodDes"]; ?></td>
+                                <td><?php echo $row["quan"]; ?></td>
                                 <td>
-                                    <a href="php_product/sua.php?id=<?php echo $row['id']; ?>&name=<?php echo $row['prodName']; ?>&des=<?php echo $row['prodDes']; ?>&cate=<?php echo $row['prodcateName']; ?>&supp=<?php echo $row['suppName']; ?>&img=<?php echo $row['imageURL']; ?>&price=<?php echo $row['price']; ?>&id_supp=<?php echo $row['id_supp']; ?> &id_prodcate=<?php echo $row['id_prodcate']; ?>  "class="btn btn-primary">Sửa</a>
+                                    <a href="php_product/sua.php?id=<?php echo $row['id']; ?>&name=<?php echo $row['prodName']; ?>&des=<?php echo $row['prodDes']; ?>&cate=<?php echo $row['prodcateName']; ?>&supp=<?php echo $row['suppName']; ?>&img=<?php echo $row['imageURL']; ?>&price=<?php echo $row['price']; ?>&id_supp=<?php echo $row['id_supp']; ?> &id_prodcate=<?php echo $row['id_prodcate']; ?>&quantity=<?php echo $row['quan']; ?>  "class="btn btn-primary">Sửa</a>
                                     <a href="php_product/xoa.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Xóa</a>
-                                    
                                 </td>
+                                
+                                
                             </tr>
                         <?php
                             $i++;
