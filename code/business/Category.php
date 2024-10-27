@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -88,7 +88,12 @@
             display: flex;
             justify-content: space-around;
         }
-
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
         .close {
             color: #aaa;
             float: right;
@@ -105,19 +110,19 @@
 </head>
 <body>
     <header>
-        <h1>Category Management</h1>
+        <h1>Danh mục sản phẩm</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="Category.php">Category</a></li>
-            <li><a href="Product.php">Product</a></li>
-            <li><a href="Supplier.php">Supplier</a></li>
+            <li><a href="Category.php">Danh mục sản phẩm</a></li>
+            <li><a href="Product.php">Sản phẩm</a></li>
+            <li><a href="Supplier.php">Nhà cung cấp</a></li>
         </ul>
     </nav>
     <main>
         <form action="php_category/them.php" method="post">
             <div class="form-container">
-                <h2>Category Details</h2>
+                <h2>Chi tiết danh mục</h2>
                 <label for="categoryName">Tên danh mục:</label>
                 <input type="text" id="categoryName" placeholder="Nhập tên danh mục..." name="name">
                 <button id="btn_them" type="submit">Thêm</button>
@@ -125,7 +130,7 @@
         </form>
 
         <div class="table-container">
-            <h2>Category List</h2>
+            <h2>Danh sách danh mục</h2>
             <table>
                 <thead>
                     <tr>
@@ -186,5 +191,9 @@
             </div>
         </div>
     </div>
+
+    <footer>
+        <p>© 2023 Company Name. All rights reserved.</p>
+    </footer>
 </body>
 </html>

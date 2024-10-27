@@ -104,23 +104,29 @@
     flex: 1;
     margin-left: 100px; /* Thay đổi giá trị 20px theo ý muốn */
 }
+footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Supplier Information</h1>
+        <h1>Nhà cung cấp</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="Category.php">Category</a></li>
-            <li><a href="Product.php">Product</a></li>
-            <li><a href="Supplier.php">Supplier</a></li>
+        <li><a href="Category.php">Danh mục sản phẩm</a></li>
+            <li><a href="Product.php">Sản phẩm</a></li>
+            <li><a href="Supplier.php">Nhà cung cấp</a></li>
         </ul>
     </nav>
     <main>
         <form action="php_supplier/them.php" method="POST">
             <div class="form-container">
-                <h2>Supplier Details</h2>
+                <h2>Chi tiết nhà cung cấp</h2>
                 <label for="supplierName">Tên nhà cung cấp:</label>
                 <input type="text" id="supplierName" name = "name" placeholder="Nhập tên nhà cung cấp...">
                 
@@ -134,7 +140,7 @@
             </div>
         </form>
         <div class="table-container">
-            <h2>Supplier List</h2>
+            <h2>Danh sách nhà cung cấp </h2>
             <table>
                 <thead>
                     <tr>
@@ -168,7 +174,7 @@
                                 
                                 <a href="php_supplier/xoa.php?sid=<?php echo $row['id'];?>" 
                                 onclick="return confirm('Bạn có muốn xóa');"  
-                                class="btn btn-primary">Xóa</a>
+                                class="btn btn-danger">Xóa</a>
 
                         
                                 
@@ -185,7 +191,9 @@
             </table>
         </div>
     </main>
-
+    <footer>
+        <p>© 2023 Company Name. All rights reserved.</p>
+    </footer>
 </body>
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
