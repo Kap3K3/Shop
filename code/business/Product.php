@@ -1,10 +1,3 @@
-<?php
-require_once 'php_product/ketnoi.php'; // Giả sử ketnoi.php chứa mã kết nối database
-
-if (!$connect) {
-    die("Lỗi kết nối cơ sở dữ liệu: " . mysqli_connect_error());
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +38,13 @@ if (!$connect) {
         nav ul li a {
             color: white;
             text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s; 
+        }
+        nav ul li a:hover {
+            background-color: #007bff; 
+            color: #fff; 
         }
         main {
             margin-top: 0.5rem
@@ -126,6 +126,7 @@ if (!$connect) {
             text-align: center;
             padding: 1rem;
         }
+        
     </style>
 </head>
 <body>
@@ -137,6 +138,10 @@ if (!$connect) {
         <li><a href="Category.php">Danh mục sản phẩm</a></li>
             <li><a href="Product.php">Sản phẩm</a></li>
             <li><a href="Supplier.php">Nhà cung cấp</a></li>
+            <li><a href="Order.php">Hóa đơn</a></li>
+            <li><a href="Customer.php">Khách hàng</a></li>
+            <li><a href="Revenue.php">Thống kê</a></li>
+
         </ul>
     </nav>
     <main>
@@ -166,6 +171,12 @@ if (!$connect) {
                 </thead>
                 <tbody>
                 <?php
+                require_once 'php_product/ketnoi.php'; // Giả sử ketnoi.php chứa mã kết nối database
+
+                if (!$connect) {
+                    die("Lỗi kết nối cơ sở dữ liệu: " . mysqli_connect_error());
+                }
+
                 $sql = " SELECT
                             p.quantity AS quan,
                             p.id_supplier AS id_supp,
@@ -257,7 +268,6 @@ if (!$connect) {
 
                 <!-- Hiển thị Select danh mục -->
                 <?php
-                    require_once 'php_product/ketnoi.php';
                     $sql = "SELECT * FROM product_catagory";
                     $result = mysqli_query($connect, $sql);
                     if (!$result) {

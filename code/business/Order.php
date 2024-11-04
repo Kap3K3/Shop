@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supplier Information</title>
+    <title>Hóa Đơn</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -183,42 +183,10 @@
             background-color: #0069d9; /* Màu xanh dương đậm hơn */
         }
     </style>
-    <script>
-        function validateForm() {
-            var supplierName = document.getElementById("supplierName").value.trim();
-            var supplierAddress = document.getElementById("supplierAddress").value.trim();
-            var supplierPhone = document.getElementById("supplierPhone").value.trim();
-
-            // Kiểm tra ô Tên nhà cung cấp
-            if (supplierName === "") {
-                alert("Tên nhà cung cấp không được để trống.");
-                return false; // Ngăn gửi form
-            }
-
-            // Kiểm tra ô Địa chỉ
-            if (supplierAddress === "") {
-                alert("Địa chỉ không được để trống.");
-                return false; // Ngăn gửi form
-            }
-
-            // Kiểm tra ô Số điện thoại
-            if (supplierPhone === "") {
-                alert("Số điện thoại không được để trống.");
-                return false; // Ngăn gửi form
-            }
-            // Kiểm tra nếu số điện thoại chứa ký tự không phải số
-            if (!/^\d+$/.test(supplierPhone)) {
-                alert("Số điện thoại chỉ được chứa số.");
-                return false; // Ngăn gửi form
-            }
-
-            return true; // Cho phép gửi form nếu tất cả hợp lệ
-        }
-    </script>
 </head>
 <body>
     <header>
-        <h1>Nhà cung cấp</h1>
+        <h1>Hóa Đơn</h1>
     </header>
     <nav>
         <ul>
@@ -231,68 +199,65 @@
 
         </ul>
     </nav>
-    <main>
-        <form action="php_supplier/them.php" method="POST" onsubmit="return validateForm();">
-            <div class="form-container">
-                <h2>Chi tiết nhà cung cấp</h2>
-                <label for="supplierName">Tên nhà cung cấp:</label>
-                <input type="text" id="supplierName" name="name" placeholder="Nhập tên nhà cung cấp...">
-                
-                <label for="supplierAddress">Địa chỉ:</label>
-                <input type="text" id="supplierAddress" name="address" placeholder="Nhập địa chỉ...">
-                
-                <label for="supplierPhone">Số điện thoại:</label>
-                <input type="text" id="supplierPhone" name="phone" placeholder="Nhập số điện thoại...">
-                
-                <button id="addBtn" type="submit">Thêm</button>
-            </div>
-        </form>
-        
+
         <div class="table-container">
-            <h2>Danh sách nhà cung cấp</h2>
-
-            <!-- Thêm form tìm kiếm -->
-            <form action="" method="GET">
-                <input type="text" name="search" placeholder="Tìm kiếm nhà cung cấp..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-            </form>
-
+            <h2>Danh sách hóa đơn</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Tên nhà cung cấp</th>
-                        <th>Địa chỉ</th>
-                        <th>Số điện thoại</th>
-                        <th>Thao tác</th>
+                        <th>Mã Hóa Đơn</th>
+                        <th>Tên Khách Hàng</th>
+                        <th>Ngày Đặt</th>
+                        <th>Tổng Giá Trị Hóa Đơn</th>
+                        <th>Hành Động</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-                    require_once 'php_supplier/ketnoi.php';
-                    
-                    // Kiểm tra có từ khóa tìm kiếm không
-                    $search = isset($_GET['search']) ? mysqli_real_escape_string($connect, $_GET['search']) : '';
-                    $sql = "SELECT * FROM Supplier WHERE name LIKE '%$search%'";
-                    
+                    require_once 'php_category/ketnoi.php';
+                    $sql = "SELECT 
+                                orders.id AS OrderID,
+                                customer.name AS CustomerName,
+                                orders.date AS OrderDate,
+                                SUM(IFNULL(product.price * order_detail.quantity, 0)) AS TotalInvoicePrice
+                            FROM 
+                                orders
+                            LEFT JOIN 
+                                customer ON orders.id_cust = customer.id
+                            LEFT JOIN 
+                                order_detail ON orders.id = order_detail.id_order
+                            LEFT JOIN 
+                                product ON order_detail.id_prod = product.id
+                            GROUP BY 
+                                orders.id, customer.name, orders.date
+                            HAVING 
+                                TotalInvoicePrice > 0
+                            ORDER BY 
+                                orders.date DESC";
+
                     $result = mysqli_query($connect, $sql);
+                    
                     if (mysqli_num_rows($result) > 0) {
                         $i = 1;
-                        while ($row = mysqli_fetch_assoc($result)) { ?>
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $formattedDate = date("d-m-Y", strtotime($row["OrderDate"]));
+                            ?>
                             <tr>
                                 <td><?php echo $i; ?></td>
-                                <td><?php echo $row["name"]; ?></td>      
-                                <td><?php echo $row["address"]; ?></td>
-                                <td><?php echo $row["phone"]; ?></td>
-                                <td class="action-icons">
-                                    <a href="php_supplier/sua.php?sid=<?php echo $row['id']; ?>&name=<?php echo $row['name']; ?>&phone=<?php echo $row['phone']; ?>&address=<?php echo $row['address'];?>" class="btn btn-warning">Sửa</a>
-                                    <a href="php_supplier/xoa.php?sid=<?php echo $row['id'];?>" onclick="return confirm('Bạn có muốn xóa');" class="btn btn-danger">Xóa</a>
+                                <td><?php echo $row["OrderID"]; ?></td>
+                                <td><?php echo $row["CustomerName"]; ?></td>
+                                <td><?php echo $formattedDate; ?></td>
+                                <td><?php echo number_format($row["TotalInvoicePrice"], 0, ',', '.'); ?> VND</td>
+                                <td>
+                                    <a href="Order_detail.php?order_id=<?php echo $row['OrderID']; ?>" class="btn btn-primary">Xem Chi Tiết</a>
                                 </td>
                             </tr>
-                        <?php $i++;  
+                            <?php
+                            $i++;
                         }
                     } else {
-                        echo "<tr><td colspan='5'>Không có dữ liệu.</td></tr>";
+                        echo '<tr><td colspan="6" class="alert alert-warning">Không có hóa đơn nào.</td></tr>';
                     }
                 ?>
                 </tbody>
