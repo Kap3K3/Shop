@@ -55,6 +55,7 @@
         $db_username = "root";
         $db_password = "";
         $dbname = "db_qllinhkien";
+       // $dbname = 'cu2_qllinhkien';
 
         // Tạo kết nối
         $conn = new mysqli($servername, $db_username, $db_password, $dbname);

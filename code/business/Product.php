@@ -158,9 +158,11 @@
         <div class="table-container">
             <h2>Danh sách sản phẩm</h2>
             <div class="add-button">
+                <a href="php_product/them.php">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    Thêm sản phẩm
+                    Thêm
                 </button>
+                </a>
             </div>
             <table>
                 <thead>
@@ -185,7 +187,7 @@
                     }
 
                     $sql = "SELECT
-                                p.quantity AS quan,
+                                 p.quantity AS quan,
                                 p.id_supplier AS id_supp,
                                 p.id_prodcate AS id_prodcate,
                                 p.description AS prodDes,
@@ -215,7 +217,8 @@
                                     <td><?php echo $row["prodcateName"]; ?></td>
                                     <td><?php echo $row["suppName"]; ?></td>
                                     <td>
-                                        <img src="image/<?php echo $row['imageURL']; ?>" alt="" style="width: 100px; height: auto;">
+                 
+                                    <img src="<?php echo $row['imageURL']; ?>" alt="" style="width: 100px; height: auto;">
                                     </td>
                                     <td class="no-wrap"><?php echo $row["prodDes"]; ?></td>
                                     <td>

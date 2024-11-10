@@ -4,7 +4,8 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "db_qllinhkien";
+ $dbname = "db_qllinhkien";
+//$dbname = 'cu2_qllinhkien';
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);
