@@ -1651,7 +1651,7 @@ div.main {
   position: relative;
   text-align: center;
   min-height: 100vh;
-  width: 70%;
+  width: 75%;
   justify-self: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding-bottom: 55px;
@@ -1692,6 +1692,8 @@ div.divBtn{
 }
 
 .content {
+  max-width: 100%;
+  width: fit-content;
   padding: 10px;
   text-align: center;
   z-index: 1;
@@ -1729,6 +1731,8 @@ h2#ftp {
   justify-self: center;
   width: 100%;
   display: flex;
+  justify-content: center;
+  flex-flow: wrap;
   z-index: 1;
   position: relative;
 }
@@ -1778,11 +1782,14 @@ h2#ftp {
 
 #categories {
   justify-self: center;
-  width: 100%;
+  max-width: 100%;
+  width: fit-content;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  height: 100px;
+  height: fit-content;
+  padding: 6px;
   display: flex;
+  flex-flow: wrap;
   align-items: start;
   justify-content: start;
 }
