@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price2 = $_POST['productPrice'];
     $quan2 = $_POST['productQuantity'];
     
-    $updateQuery = "UPDATE `product` 
+    $updateQuery = "UPDATE `products` 
                     SET `name`='$name2',
                         `price`='$price2',
                         `id_supplier`='$supp2',
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <select class="form-control" id="productCategory" name="productCategory" required>
                     <option value="" disabled>Chọn danh mục</option>
                     <?php
-                    $sql = "SELECT * FROM product_catagory";
+                    $sql = "SELECT * FROM product_category";
                     $result = mysqli_query($connect, $sql);
                     if (!$result) {
                         die("Lỗi truy vấn: " . mysqli_error($connect));
@@ -205,3 +205,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </footer>
 </body>
 </html>
+
+

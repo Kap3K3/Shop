@@ -2,7 +2,7 @@
 require_once 'ketnoi.php';
 $id = $_GET['sid'];
 
-$sql = "SELECT COUNT(*) as count FROM product WHERE id_supplier='$id'";
+$sql = "SELECT COUNT(*) as count FROM products WHERE id_supplier='$id'";
 $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_assoc($result);
 

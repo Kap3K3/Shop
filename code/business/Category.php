@@ -246,12 +246,12 @@
                             <?php
                                 require_once 'php_category/ketnoi.php';
                                 $search = isset($_GET['search']) ? $_GET['search'] : '';
-                                $sql = "SELECT * FROM product_catagory WHERE name LIKE '%$search%'";
+                                $sql = "SELECT * FROM product_category WHERE name LIKE '%$search%'";
                                 $result = mysqli_query($connect, $sql);
                                 if (!$connect) 
                                     echo "Failed Connect";
                                 else {
-                                    if (mysqli_num_rows($result) > 0) {
+                                    if (mysqli_num_rows($result) ) {
                                         $i = 1;
                                         while ($row = mysqli_fetch_assoc($result)) { ?>
                                             <tr>

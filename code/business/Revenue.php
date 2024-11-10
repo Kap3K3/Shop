@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,16 +46,16 @@
         }
 
         nav ul li a {
-            color: #fff; /* Màu chữ ban đầu */
+            color: #fff;
             text-decoration: none;
             padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s; 
+            transition: background-color 0.3s, color 0.3s;
         }
 
         nav ul li a:hover {
-            background-color: #007bff; /* Màu nền khi hover */
-            color: #fff; /* Màu chữ khi hover */
+            background-color: #007bff;
+            color: #fff;
         }
 
         main {
@@ -87,6 +88,11 @@
             text-align: center;
         }
 
+        .chart-container {
+            flex: 1;
+            padding: 1rem;
+        }
+
         footer {
             background-color: #333;
             color: white;
@@ -101,36 +107,50 @@
     </header>
     <nav>
         <ul>
-        <li><a href="Category.php">Danh mục sản phẩm</a></li>
+            <li><a href="Category.php">Danh mục sản phẩm</a></li>
             <li><a href="Product.php">Sản phẩm</a></li>
             <li><a href="Supplier.php">Nhà cung cấp</a></li>
             <li><a href="Order.php">Hóa đơn</a></li>
             <li><a href="Customer.php">Khách hàng</a></li>
             <li><a href="Revenue.php">Thống kê</a></li>
-
         </ul>
     </nav>
 
     <main>
         <div class="table-container">
-            <h2>Thống Kê Doanh Thu Theo Tháng</h2>
+            <h2>Thống Kê Doanh Thu</h2>
             <form method="POST" class="mb-3">
                 <div class="form-row">
                     <div class="col">
-                        <label for="month">Chọn Tháng:</label>
-                        <select name="month" id="month" class="form-control" required>
-                            <?php for ($m = 1; $m <= 12; $m++): ?>
-                                <option value="<?php echo $m; ?>"><?php echo str_pad($m, 2, '0', STR_PAD_LEFT); ?></option>
+                        <label for="startMonth">Chọn Tháng Bắt Đầu:</label>
+                        <select name="startMonth" id="startMonth" class="form-control" required>
+                            <?php 
+                                $currentMonth = date('m');  // Lấy tháng hiện tại
+                                for ($m = 1; $m <= 12; $m++): 
+                            ?>
+                                <option value="<?php echo $m; ?>" <?php echo ($m == $currentMonth) ? 'selected' : ''; ?>>
+                                    <?php echo str_pad($m, 2, '0', STR_PAD_LEFT); ?>
+                                </option>
                             <?php endfor; ?>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="endMonth">Chọn Tháng Kết Thúc:</label>
+                        <select name="endMonth" id="endMonth" class="form-control" required>
+                            <option value="<?php echo $currentMonth; ?>" selected>
+                                <?php echo str_pad($currentMonth, 2, '0', STR_PAD_LEFT); ?>
+                            </option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="year">Chọn Năm:</label>
                         <select name="year" id="year" class="form-control" required>
                             <?php 
-                            $currentYear = date("Y");
-                            for ($y = $currentYear - 5; $y <= $currentYear; $y++): ?>
-                                <option value="<?php echo $y; ?>"><?php echo $y; ?></option>
+                                $currentYear = date("Y");
+                                for ($y = $currentYear - 5; $y <= $currentYear; $y++): ?>
+                                    <option value="<?php echo $y; ?>" <?php echo ($y == $currentYear) ? 'selected' : ''; ?>>
+                                        <?php echo $y; ?>
+                                    </option>
                             <?php endfor; ?>
                         </select>
                     </div>
@@ -147,24 +167,24 @@
                 </thead>
                 <tbody>
                 <?php
-                    require_once 'php_category/ketnoi.php'; // Kết nối đến cơ sở dữ liệu
+                    require_once 'php_category/ketnoi.php';
 
-                    // Lấy giá trị tháng và năm từ form
-                    $selectedMonth = isset($_POST['month']) ? $_POST['month'] : date('n');
+                    $startMonth = isset($_POST['startMonth']) ? $_POST['startMonth'] : $currentMonth;
+                    $endMonth = isset($_POST['endMonth']) ? $_POST['endMonth'] : $currentMonth;
                     $selectedYear = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
-                    // Câu truy vấn SQL để lấy dữ liệu
+                    // Truy vấn dữ liệu theo tháng từ đến
                     $sql = "SELECT 
                                 DATE_FORMAT(orders.date, '%Y-%m') AS MonthYear,
-                                SUM(IFNULL(product.price * order_detail.quantity, 0)) AS TotalInvoicePrice
+                                SUM(IFNULL(products.price * order_details.quantity, 0)) AS TotalInvoicePrice
                             FROM 
                                 orders
                             LEFT JOIN 
-                                order_detail ON orders.id = order_detail.id_order
+                                order_details ON orders.id = order_details.id_order
                             LEFT JOIN 
-                                product ON order_detail.id_prod = product.id
+                                products ON order_details.id_prod = products.id
                             WHERE 
-                                MONTH(orders.date) = $selectedMonth AND YEAR(orders.date) = $selectedYear
+                                MONTH(orders.date) BETWEEN $startMonth AND $endMonth AND YEAR(orders.date) = $selectedYear
                             GROUP BY 
                                 MonthYear
                             HAVING 
@@ -177,7 +197,6 @@
                     if (mysqli_num_rows($result) > 0) {
                         $i = 1;
                         while ($row = mysqli_fetch_assoc($result)) {
-                            // Chuyển đổi MonthYear sang định dạng tháng và năm
                             $formattedMonthYear = date("m-Y", strtotime($row["MonthYear"]));
                             ?>
                             <tr>
@@ -195,9 +214,94 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="chart-container">
+            <h2>Biểu Đồ Doanh Thu</h2>
+            <canvas id="revenueChart"></canvas>
+        </div>
     </main>
+
     <footer>
         <p>© 2023 Company Name. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Cập nhật tháng kết thúc khi chọn tháng bắt đầu
+        document.getElementById('startMonth').addEventListener('change', function() {
+            var startMonth = parseInt(this.value);
+            var endMonthSelect = document.getElementById('endMonth');
+            
+            // Cập nhật giá trị của tháng kết thúc
+            endMonthSelect.innerHTML = '';  // Xóa tất cả các tùy chọn hiện có
+            for (var m = startMonth; m <= 12; m++) {
+                var option = document.createElement('option');
+                option.value = m;
+                option.innerHTML = (m < 10 ? '0' : '') + m;
+                endMonthSelect.appendChild(option);
+            }
+
+            // Cập nhật tháng kết thúc mặc định nếu tháng bắt đầu không phải tháng 12
+            if (startMonth <= 12) {
+                endMonthSelect.value = startMonth;
+            }
+        });
+
+        <?php
+            // Fetch the data to generate the chart
+            $chartData = [];
+            $chartLabels = [];
+            $sql = "SELECT 
+                        DATE_FORMAT(orders.date, '%Y-%m') AS MonthYear,
+                        SUM(IFNULL(products.price * order_details.quantity, 0)) AS TotalInvoicePrice
+                    FROM 
+                        orders
+                    LEFT JOIN 
+                        order_details ON orders.id = order_details.id_order
+                    LEFT JOIN 
+                        products ON order_details.id_prod = products.id
+                    WHERE 
+                        MONTH(orders.date) BETWEEN $startMonth AND $endMonth AND YEAR(orders.date) = $selectedYear
+                    GROUP BY 
+                        MonthYear
+                    ORDER BY 
+                        MonthYear DESC";
+            $result = mysqli_query($connect, $sql);
+            while ($row = mysqli_fetch_assoc($result)) {
+                $chartData[] = $row['TotalInvoicePrice'];
+                $chartLabels[] = date("m-Y", strtotime($row["MonthYear"]));
+            }
+        ?>
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($chartLabels); ?>,
+                datasets: [{
+                    label: 'Doanh Thu',
+                    data: <?php echo json_encode($chartData); ?>,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Doanh Thu Theo Tháng'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.toLocaleString() + ' VND';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

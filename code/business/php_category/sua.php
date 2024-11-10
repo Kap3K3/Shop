@@ -10,7 +10,7 @@ require_once 'ketnoi.php';
 
 // Kiểm tra xem có yêu cầu POST không
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $updateQuery = "UPDATE product_catagory SET name='{$_POST['namecansua']}' WHERE id='$id'";
+    $updateQuery = "UPDATE product_category SET name='{$_POST['namecansua']}' WHERE id='$id'";
     mysqli_query($connect, $updateQuery);
     header("Location: ../Category.php");
 

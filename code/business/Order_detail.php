@@ -62,17 +62,17 @@
 
             // Truy vấn lấy thông tin chi tiết hóa đơn
             $sql = "SELECT 
-                        order_detail.id AS OrderDetailID,
-                        product.name AS ProductName,
-                        product.price AS ProductPrice,
-                        order_detail.quantity AS Quantity,
-                        (product.price * order_detail.quantity) AS TotalProductPrice
+                        order_details.id AS OrderDetailID,
+                        products.name AS ProductName,
+                        products.price AS ProductPrice,
+                        order_details.quantity AS Quantity,
+                        (products.price * order_details.quantity) AS TotalProductPrice
                     FROM 
-                        order_detail
+                        order_details
                     JOIN 
-                        product ON order_detail.id_prod = product.id
+                        products ON order_details.id_prod = products.id
                     WHERE 
-                        order_detail.id_order = $order_id";
+                        order_details.id_order = $order_id";
 
             $result = mysqli_query($connect, $sql);
 

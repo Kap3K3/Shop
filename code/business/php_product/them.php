@@ -8,7 +8,7 @@
     $des=$_POST["productDescription"];
     $quan=$_POST["productQuantity"];
     $sql = "INSERT INTO 
-    `product`( `name`, `price`, `id_supplier`, `id_prodcate`,`image`,`description`,`quantity`) 
+    `products` (`name`, `price`, `id_supplier`, `id_prodcate`, `image`, `description`, `quantity`)
     VALUES ('$name','$price','$id_supp','$id_cata','$image','$des','$quan')";
     // echo "$sql"; exit;
     if (mysqli_query($connect,$sql))
@@ -16,3 +16,7 @@
 
     
 ?>
+<!-- INSERT INTO 
+    `products` (`name`, `price`, `id_supplier`, `id_prodcate`, `image`, `description`, `quantity`)
+VALUES 
+    ('Linh kiện A', 100, 1, 6, 'image/linhkienA.jpg', 'Linh kiện chất lượng cao', 50); -->
