@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "db_qllinhkien";
-//$dbname = 'cu2_qllinhkien';
+
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -117,14 +117,24 @@ $conn->close();
         </div>
     </div>
 
+    <div id="notificationModal" class="modalNoti">
+        <div class="modal-content">
+            <span class="close-notification">&times;</span>
+            <h2 id="notificationMessage"></h2>
+        </div>
+    </div>
+
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     const checkoutButton = document.getElementById('checkoutBtn');
     const confirmModal = document.getElementById('confirmModal');
     const closeModal = document.querySelector('.close');
     const confirmButton = document.getElementById('confirmCheckout');
+    const notificationModal = document.getElementById('notificationModal');
+    const closeNotification = document.querySelector('.close-notification');
+    const notificationMessage = document.getElementById('notificationMessage');
 
     checkoutButton.addEventListener('click', () => {
         confirmModal.style.display = 'block';
@@ -134,16 +144,23 @@ $conn->close();
         confirmModal.style.display = 'none';
     });
 
+    closeNotification.addEventListener('click', () => {
+        notificationModal.style.display = 'none';
+    });
+
     window.addEventListener('click', (event) => {
         if (event.target == confirmModal) {
             confirmModal.style.display = 'none';
+        }
+        if (event.target == notificationModal) {
+            notificationModal.style.display = 'none';
         }
     });
 
     confirmButton.addEventListener('click', () => {
         const selectedItems = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
             .map(checkbox => checkbox.id.replace('squaredTwo', ''));
-        
+
         if (selectedItems.length > 0) {
             fetch('../php/checkout.php', {
                 method: 'POST',
@@ -152,22 +169,28 @@ $conn->close();
                 },
                 body: JSON.stringify({ selectedItems })
             }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      alert('Thanh toán thành công!');
-                      window.location.reload();
-                  } else {
-                      alert('Có lỗi xảy ra, vui lòng thử lại.');
-                  }
-              }).catch(error => {
-                  console.error('Error:', error);
-                  alert('Có lỗi xảy ra, vui lòng thử lại.');
-              });
+                .then(data => {
+                    if (data.success) {
+                        showNotificationModal(data.message);
+                        setTimeout(() => { location.reload(); }, 2000);
+                    } else {
+                        showNotificationModal(data.message);
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    showNotificationModal('Có lỗi xảy ra, vui lòng thử lại!');
+                });
         } else {
-            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
+            showNotificationModal('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
         }
     });
+
+    function showNotificationModal(message) {
+        notificationMessage.innerText = message;
+        notificationModal.style.display = 'block';
+    }
 });
+
 
 </script>
 

@@ -34,17 +34,26 @@ if ($conn->connect_error) {
 $conn->begin_transaction();
 
 try {
-    // Tính tổng giá trị đơn hàng
+    // Tính tổng giá trị đơn hàng và kiểm tra số lượng sản phẩm
     $totalPrice = 0;
+    $outOfStockItems = [];
     foreach ($selectedItems as $itemId) {
-        $stmt = $conn->prepare("SELECT ci.quantity, p.price FROM cart_items ci JOIN products p ON ci.product_id = p.id WHERE ci.cart_item_id = ?");
+        $stmt = $conn->prepare("SELECT ci.quantity, p.price, p.quantity as product_quantity, p.name FROM cart_items ci JOIN products p ON ci.product_id = p.id WHERE ci.cart_item_id = ?");
         $stmt->bind_param("i", $itemId);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($row = $result->fetch_assoc()) {
-            $totalPrice += $row['quantity'] * $row['price'];
+            if ($row['product_quantity'] < $row['quantity']) {
+                $outOfStockItems[] = $row['name'];
+            } else {
+                $totalPrice += $row['quantity'] * $row['price'];
+            }
         }
         $stmt->close();
+    }
+
+    if (!empty($outOfStockItems)) {
+        throw new Exception("Các sản phẩm đã hết hàng: " . implode(", ", $outOfStockItems));
     }
 
     // Tạo đơn hàng mới
@@ -68,6 +77,12 @@ try {
             $stmt->execute();
             $stmt->close();
 
+            // Giảm số lượng sản phẩm trong bảng products
+            $stmt = $conn->prepare("UPDATE products SET quantity = quantity - ? WHERE id = ?");
+            $stmt->bind_param("ii", $row['quantity'], $row['product_id']);
+            $stmt->execute();
+            $stmt->close();
+
             // Xóa khỏi giỏ hàng
             $stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_item_id = ?");
             $stmt->bind_param("i", $itemId);
@@ -83,7 +98,7 @@ try {
 } catch (Exception $e) {
     // Rollback transaction nếu có lỗi
     $conn->rollback();
-    echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra, vui lòng thử lại.', 'error' => $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 
 $conn->close();
