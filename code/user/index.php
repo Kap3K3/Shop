@@ -53,6 +53,7 @@
     <script src="../js/getCategories.js"></script>
     <script src="../js/cart.js"></script>
     <script src="../js/modal.js"></script>
+    <script src="../js/categoryScroll.js"></script>
 </body>
 </html>
 

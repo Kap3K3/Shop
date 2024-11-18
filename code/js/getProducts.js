@@ -12,9 +12,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 <h2>${product.name}</h2>
                 <p>Price: ${product.price} VND</p>
                 <div class="divBtn">
+                
                 <button class="custom-button btn-7 buy-button" data-product-id="${product.id}" data-product-name="${product.name}"><span>Mua</span></button>
                 <div class="cart-button" data-product-id="${product.id}">
+
                     <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-text">Thêm vào giỏ hàng</span>
                 </div>
                 </div>
             `;
