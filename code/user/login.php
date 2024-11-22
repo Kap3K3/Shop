@@ -6,16 +6,14 @@
     <title>Sign in</title>
     <link rel="stylesheet" href="../css/login.css">
 </head>
-<body style="background: #949494">
+<body>
 
     <?php
     session_start(); // Khởi tạo phiên làm việc
-
     // Kiểm tra trạng thái đăng nhập từ phiên
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-        // Chuyển hướng đến trang chính hoặc trang người dùng đã đăng nhập nếu đã đăng nhập thành công
-        header("Location: index.php"); // Thay đổi thành URL trang chính của bạn nếu cần
-        exit;
+        header("Location: ../user/index.php"); 
+        exit();
     }
     ?>
 
@@ -44,7 +42,7 @@
     <div id="modal-overlay" class="modal-overlay"></div>
     <div id="modal" class="modal">
         <h2 id="modal-message"></h2>
-        <button onclick="closeModal()">Close</button>
+        <button id="closeNotif" onclick="closeModal()">Close</button>
     </div>
 
     <?php
@@ -55,7 +53,6 @@
         $db_username = "root";
         $db_password = "";
         $dbname = "db_qllinhkien";
-       // $dbname = 'cu2_qllinhkien';
 
         // Tạo kết nối
         $conn = new mysqli($servername, $db_username, $db_password, $dbname);
@@ -74,6 +71,7 @@
         $stmt->bind_param("s", $user);
         $stmt->execute();
         $result = $stmt->get_result();
+        $message="hello!";
 
         if ($result->num_rows > 0) {
             // Đăng nhập thành công
@@ -83,6 +81,7 @@
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $user;
                 $_SESSION['id_user'] = $user_data['id'];
+                $_SESSION['permission'] =$user_data['permission'];
                 // Lưu trạng thái đăng nhập vào phiên
                 $message = "Đăng nhập thành công!";
                 $login_success = true;
@@ -107,7 +106,7 @@
         echo "<script> 
             const message = $json_message; 
             document.getElementById('modal-message').innerText = message; 
-            document.getElementById('modal').style.display = 'block'; 
+            document.getElementById('modal').style.display = 'flex'; 
             document.getElementById('modal-overlay').style.display = 'block'; 
             if ($json_login_success) { 
                 document.getElementById('modal').setAttribute('data-loggedin', 'true'); 
@@ -130,7 +129,7 @@
 
         // Chỉ hiển thị modal khi có biến show_modal được đặt là true
         <?php if ($show_modal): ?>
-        document.getElementById('modal').style.display = 'block';
+        document.getElementById('modal').style.display = 'flex';
         document.getElementById('modal-overlay').style.display = 'block';
         <?php endif; ?>
     </script>

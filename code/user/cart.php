@@ -90,7 +90,7 @@ $conn->close();
         <div class="product-list">
             <?php if (!empty($cart_items)): ?>
                 <?php foreach ($cart_items as $item): ?>
-                    <div class="product bg-red-50">
+                    <div class="product-cart">
                         <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                         <h2><?php echo htmlspecialchars($item["name"]); ?></h2>
                         <p>Giá: <?php echo htmlspecialchars($item["price"]*$item["quantity"]); ?> VND</p>

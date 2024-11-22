@@ -10,19 +10,40 @@ document.addEventListener('DOMContentLoaded', async function() {
             productDiv.innerHTML = `
                 <img src="${product.image}" alt="">
                 <h2>${product.name}</h2>
-                <p>Price: ${product.price} VND</p>
+                <p>Giá: ${product.price} VND</p>
                 <div class="divBtn">
-                
-                <button class="custom-button btn-7 buy-button" data-product-id="${product.id}" data-product-name="${product.name}"><span>Mua</span></button>
-                <div class="cart-button" data-product-id="${product.id}">
-
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-text">Thêm vào giỏ hàng</span>
-                </div>
+                    <button class="custom-button btn-7 buy-button" data-product-id="${product.id}" data-product-name="${product.name}"><span>Mua</span></button>
+                    <div class="cart-button" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-text">Thêm vào giỏ hàng</span>
+                    </div>
                 </div>
             `;
             productsContainer.appendChild(productDiv);
+        
+            // Add event listener to the productDiv
+            productDiv.addEventListener('click', () => {
+                window.location.href = `product.php?id=${product.id}`;
+            });
+        
+            // Add event listener to the buy button
+            const buyButton = productDiv.querySelector('.buy-button');
+            buyButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                // Add your buy button logic here
+                console.log(`Buying product: ${product.name}`);
+            });
+        
+            // Add event listener to the cart button
+            const cartButton = productDiv.querySelector('.cart-button');
+            cartButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                // Add your cart button logic here
+                console.log(`Adding product to cart: ${product.name}`);
+            });
         });
+        
+        
 
         const cartButtons = document.querySelectorAll('.cart-button');
         cartButtons.forEach(button => {
@@ -42,13 +63,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const confirmButton = document.getElementById('confirmPurchase');
                 const closeModal = document.querySelector('.close-2');
                 const notificationModal = document.getElementById('notificationModal');
-
-                document.getElementById('selectedProduct').innerText = `Sản phẩm: ${productName}, Số lượng: 1`;
+                
+                
+                document.getElementById('selectedProduct').innerText = `Sản phẩm: ${productName}`;
                 confirmModal.style.display = 'block';
+                
 
                 confirmButton.onclick = async function() {
                     try {
-                        await createOrder(productId, 1); // Gọi hàm để tạo đơn hàng cho sản phẩm với số lượng 1
+                        let quantity = document.getElementById('quantity').value;
+                        await createOrder(productId, quantity);
                         confirmModal.style.display = 'none'; // Ẩn modal xác nhận sau khi xác nhận
 
                         // Hiển thị modal thông báo
@@ -57,17 +81,18 @@ document.addEventListener('DOMContentLoaded', async function() {
 
                     } catch (error) {
                         confirmModal.style.display = 'none'; // Ẩn modal xác nhận sau khi xác nhận
-                        document.getElementById('notificationMessage').innerText = 'Có lỗi xảy ra, vui lòng thử lại. Chi tiết lỗi: ' + error.message;
+                        document.getElementById('notificationMessage').innerText = 'Có lỗi xảy ra: ' + error.message;
                         notificationModal.style.display = 'block';
                     }
+                    document.getElementById('quantity').value=1;
                 };
 
                 closeModal.onclick = function() {
                     confirmModal.style.display = 'none';
+                    document.getElementById('quantity').value=1;
                 };
 
                 const closeNotificationModal = document.querySelector('.close-notification');
-                
 
                 closeNotificationModal.onclick = function() {
                     notificationModal.style.display = 'none';
@@ -76,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 window.onclick = function(event) {
                     if (event.target == confirmModal) {
                         confirmModal.style.display = 'none';
+                        document.getElementById('quantity').value=1;
                     }
                     if (event.target == notificationModal) {
                         notificationModal.style.display = 'none';

@@ -15,8 +15,9 @@
     <?php include '../php/search.php' ?>
     <div class="main">
         <div class="content">
+            <h2 id="ftp">Danh mục</h2>
             <div id="categories"></div>
-            <h2 id="ftp">Featured Products</h2>
+            <h2 id="ftp">Sản phẩm</h2>
             <div id="products"></div>
             
         </div>
@@ -31,12 +32,21 @@
         
         <div id="confirmModal" class="modal">
             <div class="modal-content">
-                <span class="close-2">&times;</span>
+                <span class="close-2">×</span>
                 <h2>Xác nhận mua sản phẩm</h2>
                 <p id="selectedProduct"></p>
+                
+                <!-- Thêm phần tử tăng giảm số lượng -->
+                <div class="quantity-container">
+                    <button id="decreaseQuantity" class="quantity-button">-</button>
+                    <input type="text" id="quantity" value="1" disabled>
+                    <button id="increaseQuantity" class="quantity-button">+</button>
+                </div>
+                
                 <button id="confirmPurchase" class="custom-button btn-7"><span>Xác nhận</span></button>
             </div>
         </div>
+
 
         <!-- Modal thông báo -->
         <div id="notificationModal" class="modal">
@@ -54,6 +64,7 @@
     <script src="../js/cart.js"></script>
     <script src="../js/modal.js"></script>
     <script src="../js/categoryScroll.js"></script>
+    <script src="../js/btnIncDec.js"></script>
 </body>
 </html>
 

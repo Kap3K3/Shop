@@ -46,7 +46,6 @@ if ($result->num_rows > 0) {
 
 // Bắt đầu transaction
 $conn->begin_transaction();
-
 try {
     // Tính tổng giá trị đơn hàng và kiểm tra số lượng sản phẩm
     $stmt = $conn->prepare("SELECT p.price, p.quantity FROM products p WHERE id = ?");
@@ -93,6 +92,5 @@ try {
     $errorMessage = ($e->getMessage() === "Sản phẩm đã hết hàng hoặc không đủ số lượng.") ? "Sản phẩm đã hết hàng." : 'Có lỗi xảy ra, vui lòng thử lại.';
     echo json_encode(['success' => false, 'message' => $errorMessage, 'error' => $e->getMessage()]);
 }
-
 $conn->close();
 ?>

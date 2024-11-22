@@ -25,7 +25,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   font-family: "Poppins";
-  --color: #45f3ff;
+  --color: #6df5ff;
 }
 
 .signup {
@@ -190,8 +190,10 @@ input[type="submit"] {
   background-color: #4CAF50;
   color: white;
   border: none;
+  justify-self: center;
   border-radius: 4px;
   cursor: pointer;
+  margin: auto;
 }
 
 .modal-overlay {

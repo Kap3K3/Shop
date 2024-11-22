@@ -16,3 +16,8 @@ document.getElementById('home').addEventListener('click', () => {
     window.location.href = 'index.php';
     
 });
+
+document.getElementById('management').addEventListener('click', () => {
+    window.location.href = '../business/Category.php';
+    
+});

@@ -1631,6 +1631,10 @@ header div{
   outline: none;
 }
 
+button#increaseQuantity, button#decreaseQuantity{
+  background: #f4f4f4;
+}
+
 .login-button {
   background-color: #4CAF50;
   color: white;
@@ -1653,10 +1657,10 @@ div.main {
   min-height: 100vh;
   width: 75%;
   justify-self: center;
-  padding-bottom: 55px;
+  padding-bottom: 45px;
 }
 
-div.divBtn{
+.product div.divBtn{
   height: 40px;
   width: 100%;
   display: flex;
@@ -1664,7 +1668,7 @@ div.divBtn{
   position: relative;
 }
 
-.cart-button{
+.product .cart-button{
   position: absolute;
   right: 12px;
   top: 8px;
@@ -1672,7 +1676,7 @@ div.divBtn{
   cursor: pointer;
 }
 
-.cart-text {
+.product .cart-text {
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -1688,11 +1692,31 @@ div.divBtn{
   pointer-events: none;
 }
 
-.cart-button:hover .cart-text {
+.product .cart-button:hover .cart-text {
   visibility: visible;
   opacity: 1;
 }
 
+.quantity-container {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.quantity-button {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#quantity {
+  width: 50px;
+  text-align: center;
+  margin: 0 10px;
+}
 
 #sidebar{
   z-index: 99;
@@ -1740,7 +1764,7 @@ h2#ftp {
   justify-content: center;
   width: 70%;
   justify-self: center;
-  
+  padding: 10px;
 }
 
 .product {
@@ -1752,7 +1776,7 @@ h2#ftp {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end ;
-  width: 250px;
+  max-width: 250px;
   height: 310px;
   margin: 5px;
   padding: 10px;
@@ -1827,11 +1851,10 @@ h2#ftp {
 
 #categories {
   justify-self: center;
-  max-width: 100%;
-  width: fit-content;
+  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  height: 100px;
+  /* height: 120px; */
   padding: 6px;
   display: flex;
   flex-flow: nowrap;
@@ -1847,11 +1870,12 @@ h2#ftp {
 }
 
 .cate_item {
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 100%;
   min-width: 100px;
   margin: 5px;
+  padding: 5px;
   border: 1px black solid;
+  cursor: pointer;
 }
 
 .buy-button {
@@ -1861,6 +1885,14 @@ h2#ftp {
 
 .buy-button:hover {
   /* background-color: #b8b8b8; */
+}
+
+.pagination{
+  margin: 10px;
+}
+
+#management{
+  display: none;
 }
 
 footer {

@@ -25,6 +25,6 @@ categories.addEventListener('mousemove', (e) => {
   if (!isDown) return;
   e.preventDefault();
   const x = e.pageX - categories.offsetLeft;
-  const walk = (x - startX) * 3; // Tốc độ cuộn
+  const walk = (x - startX) * 1; // Tốc độ cuộn
   categories.scrollLeft = scrollLeft - walk;
 });

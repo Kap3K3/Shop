@@ -25,9 +25,7 @@ function showModal(message) {
     modal.style.display = 'block';
 }
 
-
 const notificationModal = document.getElementById('notificationModal');
-
 
 window.onclick = function(event) {
     if (event.target == notificationModal) {

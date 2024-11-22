@@ -7,7 +7,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 ?>
 <header>
     <span></span>
-    <span class="name-shop">My Shop</span>
+    <span class="name-shop">Cửa hàng</span>
     <div>
         <?php if ($is_logged_in): ?> 
             <div class="dropdown">
@@ -16,11 +16,11 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                     <a href="../user/profile.php">Thông tin cá nhân</a>
                     <a href="../user/cart.php">Giỏ hàng</a>
                     <a href="../user/order.php">Đơn hàng</a>
-                    <a href="../php/logout.php">Logout</a>
+                    <a href="../php/logout.php">Đăng xuất</a>
                 </div>
             </div>
         <?php else: ?> 
-            <button onclick="window.location.href='../user/login.php'" class="custom-button btn-6 login-button"><span>Login</span></button> 
+            <button onclick="window.location.href='../user/login.php'" class="custom-button btn-6 login-button"><span>Đăng nhập</span></button>
         <?php endif; ?>
     </div>
     

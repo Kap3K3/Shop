@@ -11,11 +11,7 @@ class=" relative my-5 group hover:cursor-pointer hover:bg-slate-800 p-2 rounded-
       <rect x="0" y="9" width="20" height="3" fill="white"/>
       <rect x="0" y="15" width="20" height="3" fill="white"/>
     </svg>
-    <div class="showText">Less</div>
-  
-    <div class="sideText pointer-events-none absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100">
-        More
-    </div>
+    
 </div>
 
   <div id="home"
@@ -33,35 +29,40 @@ class=" relative my-5 group hover:cursor-pointer hover:bg-slate-800 p-2 rounded-
         fill="white"
       ></path>
     </svg>
-    <div class="showText">Home</div>
+    <div class="showText">Trang chủ</div>
     <div 
         class=" sideText pointer-events-none absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
     >
-      Home
+      Trang chủ
     </div>
   </div>
 
-  <div
+  <div id="management"
     class="relative my-5 group hover:cursor-pointer hover:bg-slate-800 p-2 rounded-full transition-all duration-500"
   >
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 30 30"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M15.0013 0C10.482 0 6.81914 3.50348 6.81914 7.82609V9.13044C6.81914 13.453 10.482 16.9565 15.0013 16.9565C19.5206 16.9565 23.1835 13.453 23.1835 9.13044V7.82609C23.1835 3.50348 19.5206 0 15.0013 0ZM14.9987 20.8696C9.53569 20.8696 2.52628 23.6959 0.509366 26.2041C-0.737054 27.755 0.44947 30 2.49366 30H27.5063C29.5505 30 30.7371 27.755 29.4906 26.2041C27.4737 23.6972 20.4616 20.8696 14.9987 20.8696Z"
-        fill="white"
-      ></path>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M8 8a4 4 0 014-4h24a4 4 0 014 4v4h4a2 2 0 012 2v26a2 2 0 01-2 2H4a2 2 0 01-2-2V14a2 2 0 012-2h4V8zm28 0v4H12V8a2 2 0 012-2h20a2 2 0 012 2zm0 8H12v20h24V16zm6 0h-4v20h4V16zM6 16h4v20H6V16zm24 12h-8v8h8v-8zm-6 2h4v4h-4v-4zm6-8h-8v8h8v-8zm-6 2h4v4h-4v-4zm6-8h-8v8h8v-8zm-6 2h4v4h-4v-4zm6-8h-8v8h8v-8zm-6 2h4v4h-4v-4z"
+      fill="white"
+    />
+  </svg>
+
+
     </svg>
-    <div class="showText">Info</div>
+    <div class="showText">Quản lý</div>
 
     <div
-        class="sideText absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
+        class="sideText pointer-events-none absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
     >
-      Info
+      Quản lý
     </div>
   </div>
 
@@ -80,15 +81,32 @@ class=" relative my-5 group hover:cursor-pointer hover:bg-slate-800 p-2 rounded-
         fill="white"
       ></path>
     </svg>
-    <div class="showText">Setting</div>
+    <div class="showText">Cài đặt</div>
 
     <div
-        class="sideText absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
+        class="sideText pointer-events-none absolute bottom--0.5 left-14 -translate-y-3/4 w-max px-2 py-1 text-white bg-black rounded-md opacity-0 transform scale-50 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
     >
-      Setting
+      Cài đặt
     </div>
   </div>
 
 </div>
 
 <script src="../js/sidebar.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Lấy giá trị permission từ PHP
+    var permission = <?php echo json_encode($_SESSION['permission']); ?>;
+
+    // Lấy phần tử "Management"
+    var managementElement = document.getElementById('management');
+
+    // Kiểm tra giá trị của permission và hiển thị hoặc ẩn phần tử "Management"
+    if (permission == 1) {
+      managementElement.style.display = 'block';
+    } else {
+      managementElement.style.display = 'none';
+    }
+  });
+</script>
+

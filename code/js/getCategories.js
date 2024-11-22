@@ -6,21 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
             data.forEach(cate => {
                 const cateDiv = document.createElement('div');
                 cateDiv.className = 'cate_item';
+                cateDiv.setAttribute('data-category', cate.name);
                 cateDiv.innerHTML = `<a href="#" class="cate-link">${cate.name}</a>`;
                 cateContainer.appendChild(cateDiv);
             });
 
-            // Thêm sự kiện click vào các thẻ a
-            const cateLinks = document.querySelectorAll('.cate-link');
-            cateLinks.forEach(link => {
-                link.addEventListener('click', function(event) {
+            // Thêm sự kiện click vào các thẻ div với class cate_item
+            const cateItems = document.querySelectorAll('.cate_item');
+            cateItems.forEach(item => {
+                item.addEventListener('click', function(event) {
                     event.preventDefault();
-                    const catename = this.textContent;
-                    const searchInput = document.getElementById('keyword');
-                    searchInput.value = catename;
+                    const category = this.getAttribute('data-category');
 
-                    // Gửi form tìm kiếm
-                    document.getElementById('search-form').submit();
+                    // Redirect to productsSearch.php with the selected category
+                    window.location.href = `cateSearch.php?category=${encodeURIComponent(category)}`;
                 });
             });
         })

@@ -9,13 +9,36 @@
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
+    position: relative;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    padding-bottom: 70px;
 }
+.modal-content p{
+    text-align: center;
+}
+.modal-content #confirmPurchase,.modal-content #confirmCartButton{
+    position: absolute;
+    bottom: 0;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+h2{
+    justify-self: center;
+}
+#notificationMessage{
+    justify-self: center;
+}
+
+.modal-content button{
+    margin: 5px 0;
+}
+
 .close,.close-2 {
     color: #aaa;
     float: right;

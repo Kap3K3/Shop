@@ -11,8 +11,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 $servername = "localhost";
 $username = "root";
 $password = "";
- $dbname = "db_qllinhkien";
-//$dbname = 'cu2_qllinhkien';
+$dbname = "db_qllinhkien";
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);

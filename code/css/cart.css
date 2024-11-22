@@ -5,34 +5,40 @@
     padding-bottom: 50px;
 }
 
-.product {
+.product-cart {
+    display: flex;
     flex-direction: row;
     height: fit-content;
     width: 100%;
     justify-items: stretch;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    border: #aaa 1px solid;
 }
 
-.product h2 {
+.product-cart h2 {
     flex: 1;
 }
 
-.product p {
+.product-cart p {
     width: fit-content;
     margin: 0 10px;
 }
 
-.product input {
+.product-cart input {
     margin: 0 10px;
 
 }
 
-.product img {
+.product-cart img {
     height: 50px;
     width: 50px;
     margin: 0 20px;
 }
 
 .product-list{
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
