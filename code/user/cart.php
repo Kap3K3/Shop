@@ -154,6 +154,7 @@ $conn->close();
         }
         if (event.target == notificationModal) {
             notificationModal.style.display = 'none';
+            confirmModal.style.display ='none';
         }
     });
 

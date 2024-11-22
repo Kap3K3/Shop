@@ -26,6 +26,11 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <p>Bạn có chắc chắn muốn thêm sản phẩm này vào giỏ hàng?</p>
+                <div class="quantity-container">
+                    <button id="decreaseQuantity" class="quantity-button">-</button>
+                    <input type="text" id="quantity" value="1" disabled>
+                    <button id="increaseQuantity" class="quantity-button">+</button>
+                </div>
                 <button id="confirmCartButton" class="custom-button btn-7"><span>Xác Nhận</span></button>
             </div>
         </div>

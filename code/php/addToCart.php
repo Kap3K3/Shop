@@ -16,6 +16,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 $user_id = $_SESSION['id_user'];
 $data = json_decode(file_get_contents('php://input'), true);
 $productId = $data['productId'] ?? 0;
+$quantity = $data['quantity'];
 
 if ($productId == 0) {
     echo json_encode(['success' => false, 'message' => 'Không có sản phẩm nào được chọn']);
@@ -67,7 +68,7 @@ if ($result->num_rows > 0) {
 }
 
 // Thêm sản phẩm vào giỏ hàng
-$stmt = $conn->prepare("INSERT INTO cart_items (cart_id, product_id, quantity, date_added) VALUES (?, ?, 1, NOW())");
+$stmt = $conn->prepare("INSERT INTO cart_items (cart_id, product_id, quantity, date_added) VALUES (?, ?, $quantity, NOW())");
 if (!$stmt) {
     error_log('Prepare statement error: ' . $conn->error);
     echo json_encode(['success' => false, 'message' => 'Prepare statement error']);

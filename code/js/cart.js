@@ -1,10 +1,10 @@
-async function addToCart(productId) {
+async function addToCart(productId,quantity) {
     fetch('../php/addToCart.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productId })
+        body: JSON.stringify({ productId,quantity })
     }).then(response => response.json())
       .then(data => {
           if (data.success) {

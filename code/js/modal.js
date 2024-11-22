@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     confirmCartButton.addEventListener('click', function() {
         const productId = confirmCartButton.getAttribute('data-product-id');
-        addToCart(productId);
+        let quantity = document.getElementById('quantity').value;
+        addToCart(productId,quantity);
         cartModal.style.display = 'none';
     });
 });
@@ -26,29 +27,4 @@ function openModal(productId) {
 
     confirmCartButton.setAttribute('data-product-id', productId);
     cartModal.style.display = 'block';
-}
-
-async function createOrder(productId, quantity) {
-    try {
-        const response = await fetch('../php/createOrder.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId, quantity })
-        });
-
-        if (!response.ok) {
-            throw new Error('Phản hồi mạng không ổn');
-        }
-
-        const data = await response.json();
-        if (!data.success) {
-            throw new Error(data.message);
-        }
-
-        return data;
-    } catch (error) {
-        throw error;
-    }
 }
