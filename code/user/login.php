@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in</title>
+    <title>Đăng nhập</title>
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
@@ -19,22 +19,22 @@
 
     <div class="box">
         <form class="form" action="" method="POST">
-            <h2>Sign In</h2>
+            <h2>ĐĂNG NHẬP</h2>
             <div class="inputbox">
                 <input type="text" name="username" required="required">
-                <span>Username</span>
+                <span>Tên đăng nhập</span>
                 <i></i>
             </div>
             <div class="inputbox">
                 <input type="password" name="password" required="required">
-                <span>Password</span>
+                <span>Mật khẩu</span>
                 <i></i>
             </div>
             <div class="links">
-                <a href="#">Forget Password?</a>
-                <a href="./signup.php">Signup</a>
+                <a href="#">Quên mật khẩu?</a>
+                <a href="./signup.php">Đăng ký</a>
             </div>
-            <input type="submit" value="Login">
+            <input type="submit" value="Đăng nhập">
         </form>
     </div>
 
@@ -42,7 +42,7 @@
     <div id="modal-overlay" class="modal-overlay"></div>
     <div id="modal" class="modal">
         <h2 id="modal-message"></h2>
-        <button id="closeNotif" onclick="closeModal()">Close</button>
+        <button id="closeNotif" onclick="closeModal()">Đóng</button>
     </div>
 
     <?php
@@ -71,7 +71,6 @@
         $stmt->bind_param("s", $user);
         $stmt->execute();
         $result = $stmt->get_result();
-        $message="hello!";
 
         if ($result->num_rows > 0) {
             // Đăng nhập thành công

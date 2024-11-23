@@ -66,7 +66,7 @@ $conn->close();
             </tr>
             <tr>
                 <th>Số điện thoại</th>
-                <td><?php echo htmlspecialchars($customer['phone']); ?></td>
+                <td><?php echo htmlspecialchars('0'.$customer['phone']); ?></td>
             </tr>
         </table>
     </div>

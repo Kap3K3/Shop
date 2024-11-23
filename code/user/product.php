@@ -111,14 +111,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function addToCart(productId) {
+    async function addToCart(productId,quantity) {
         try {
             const response = await fetch('../php/addToCart.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ productId })
+                body: JSON.stringify({ productId,quantity })
             });
 
             if (!response.ok) {
@@ -162,8 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cartButton.addEventListener('click', async function() {
         const productId = <?php echo $product_id; ?>;
+        const quantity = quantityInput.value;
         try {
-            await addToCart(productId);
+            await addToCart(productId,quantity);
         } catch (error) {
             console.error('Error:', error);
             showModal(error.message);

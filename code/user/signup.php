@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+    <title>Đăng ký</title>
     <link rel="stylesheet" href="../css/login.css">
 </head>
-<body style="background: #949494">
+<body>
     <div class="box signup">
         <div class="form">
-            <h2>Sign Up</h2>
+            <h2>ĐĂNG KÝ</h2>
             <?php
+            $showModal = false;
+            $modalMessage = '';
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Nhận dữ liệu từ form
                 $username = $_POST['username'];
@@ -21,7 +24,8 @@
 
                 // Kiểm tra mật khẩu xác nhận
                 if ($password !== $confirm_password) {
-                    echo "<p style='color: red;'>Password and Confirm Password do not match.</p>";
+                    $showModal = true;
+                    $modalMessage = "Password and Confirm Password do not match.";
                 } else {
                     // Kết nối cơ sở dữ liệu
                     $servername = "localhost";
@@ -59,50 +63,85 @@
                         // Commit transaction
                         $conn->commit();
 
-                        echo "<p style='color: green;'>Registration successful!</p>";
+                        $showModal = true;
+                        $modalMessage = "Đăng ký thành công!";
                     } catch (Exception $e) {
                         // Rollback transaction nếu có lỗi
                         $conn->rollback();
-                        echo "<p style='color: red;'>Có lỗi xảy ra: " . $e->getMessage() . "</p>";
+                        $showModal = true;
+                        $modalMessage = "Có lỗi xảy ra: Đăng ký thất bại!";
                     }
 
                     $conn->close();
                 }
             }
             ?>
+
+
             <form action="" method="POST">
                 <div class="inputbox">
                     <input type="text" name="name" required="required">
-                    <span>Name</span>
+                    <span>Tên</span>
                     <i></i>
                 </div>
                 <div class="inputbox">
                     <input type="text" name="phone" required="required">
-                    <span>Phone</span>
+                    <span>Số điện thoại</span>
                     <i></i>
                 </div>
                 <div class="inputbox">
                     <input type="text" name="username" required="required">
-                    <span>Username</span>
+                    <span>Tên dăng nhập</span>
                     <i></i>
                 </div>
                 <div class="inputbox">
                     <input type="password" name="password" required="required">
-                    <span>Password</span>
+                    <span>Mật khẩu</span>
                     <i></i>
                 </div>
                 <div class="inputbox">
                     <input type="password" name="confirm_password" required="required">
-                    <span>Confirm Password</span>
+                    <span>Xác nhận mật khẩu</span>
                     <i></i>
                 </div>
                 
                 <div class="links">
-                    <a href="./login.php">Sign in</a>
+                    <a href="./login.php">Đăng nhập</a>
                 </div>
-                <input type="submit" value="Sign Up">
+                <input type="submit" value="Đăng ký">
             </form>
         </div>
     </div>
+    <!-- Modal thông báo -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="modal" class="modal">
+        <h2 id="modal-message"></h2>
+        <button id="closeNotif" onclick="closeModal()">Đóng</button>
+    </div>
+
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var showModal = <?php echo json_encode($showModal); ?>;
+    var modalMessage = <?php echo json_encode($modalMessage); ?>;
+
+    if (showModal) {
+        var modalOverlay = document.getElementById('modal-overlay');
+        var modal = document.getElementById('modal');
+        var message = document.getElementById('modal-message');
+
+        message.innerText = modalMessage;
+        modalOverlay.style.display = 'block';
+        modal.style.display = 'flex';
+    }
+});
+
+function closeModal() {
+    var modalOverlay = document.getElementById('modal-overlay');
+    var modal = document.getElementById('modal');
+    modalOverlay.style.display = 'none';
+    modal.style.display = 'none';
+}
+</script>
+
 </html>

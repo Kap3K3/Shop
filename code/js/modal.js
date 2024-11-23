@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('click', function(event) {
         if (event.target == cartModal) {
             cartModal.style.display = 'none';
+            document.querySelectorAll('#quantity').forEach(function(element) {
+                element.value=1;
+            });
         }
     });
 

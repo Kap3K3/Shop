@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const productId = this.getAttribute('data-product-id');
                 openModal(productId);
             });
+            
         });
 
         const buyButtons = document.querySelectorAll('.buy-button');
@@ -101,11 +102,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 window.onclick = function(event) {
                     if (event.target == confirmModal) {
                         confirmModal.style.display = 'none';
-                        document.getElementById('quantity').value=1;
+                        document.querySelectorAll('#quantity').forEach(function(element) {
+                            element.value=1;
+                        });
                     }
                     if (event.target == notificationModal) {
                         notificationModal.style.display = 'none';
+                        document.querySelectorAll('#quantity').forEach(function(element) {
+                            element.value=1;
+                        });
                     }
+                    
                 };
             });
         });
